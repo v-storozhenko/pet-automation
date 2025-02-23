@@ -19,6 +19,7 @@ def _get_python_files():
     Найти все .py файлы в текущей директории (и ее вложениях).
     """
     python_files = []
+
     for root, dirs, files in os.walk("."):
         # "." - текущая директория и все её подкаталоги
 
