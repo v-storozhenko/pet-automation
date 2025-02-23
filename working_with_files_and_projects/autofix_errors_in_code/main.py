@@ -8,17 +8,34 @@
 """
 
 import os
+
 import autopep8
 import pylint.lint
 import autoflake
+
+
+def _get_python_files():
+    """
+    Найти все .py файлы в текущей директории (и ее вложениях).
+    """
+    python_files = []
+    for root, dirs, files in os.walk("."):
+        # "." - текущая директория и все её подкаталоги
+
+        # игнорируем все директории, имя которых начинается с точки
+        dirs[:] = [d for d in dirs if not d.startswith(".")]
+
+        for file in files:
+            if file.endswith(".py"):
+                python_files.append(os.path.join(root, file))
+    return python_files
 
 
 def check_code():
     """
     Проверяет и форматирует все .py файлы в текущей директории.
     """
-    # .py файлы в текущей директории
-    python_files = [f for f in os.listdir() if f.endswith(".py")]
+    python_files = _get_python_files()
 
     for file in python_files:
         # `autoflake`: удаление неиспользуемых импортов
